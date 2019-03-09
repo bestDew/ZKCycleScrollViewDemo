@@ -1,0 +1,12 @@
+platform :ios, '8.0'
+
+inhibit_all_warnings!
+
+target 'ZKCycleScrollViewDemo' do
+
+  use_frameworks!
+
+  pod 'Kingfisher'
+  pod 'CHIPageControl'
+
+end
