@@ -362,7 +362,7 @@ extension ZKCycleScrollView: UICollectionViewDelegate {
     
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         if let delegate = delegate, delegate.responds(to: #selector(ZKCycleScrollViewDelegate.cycleScrollView(_:didScrollTo:))) {
-            if count <= 0 { return }
+            guard count > 0 else { return }
             let indexPath = currentIndexPath()
             delegate.cycleScrollView!(self, didScrollTo: indexPath)
         }

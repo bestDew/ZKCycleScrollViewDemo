@@ -98,7 +98,7 @@ extension ViewController: ZKCycleScrollViewDelegate {
         
         guard cycleScrollView === localBannerView else { return }
         
-        let total =  CGFloat(loaclPathGroup.count - 1) * cycleScrollView.bounds.width
+        let total = CGFloat(loaclPathGroup.count - 1) * cycleScrollView.bounds.width
         let offset = cycleScrollView.contentOffset.x.truncatingRemainder(dividingBy:(cycleScrollView.bounds.width * CGFloat(loaclPathGroup.count)))
         let percent = Double(offset / total)
         let progress = percent * Double(loaclPathGroup.count - 1)
