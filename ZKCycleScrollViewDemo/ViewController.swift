@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     var textGroup = [String]()
     
     lazy var localBannerView: ZKCycleScrollView = {
-        let localBannerView = ZKCycleScrollView(frame: CGRect(x: 0.0, y: 100.0, width: view.bounds.width, height: kFitWidth(200.0)))
+        let localBannerView = ZKCycleScrollView(frame: CGRect(x: 0.0, y: 100.0, width: view.bounds.width, height: kFitWidth(188.0)))
         localBannerView.delegate = self
         localBannerView.dataSource = self
         localBannerView.backgroundColor = .white
@@ -45,7 +45,7 @@ class ViewController: UIViewController {
         let textBannerView = ZKCycleScrollView(frame: CGRect(x: 0, y: 480.0, width: kScreenWidth, height: 30.0))
         textBannerView.delegate = self
         textBannerView.dataSource = self
-        textBannerView.isScrollEnabled = false
+        textBannerView.isDragEnabled = false
         textBannerView.showsPageControl = false
         textBannerView.backgroundColor = .white
         textBannerView.scrollDirection = .vertical

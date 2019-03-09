@@ -84,10 +84,10 @@ open class ZKCycleScrollView: UIView {
             }
         }
     }
-    /// Default true. Turn off any dragging temporarily
-    open var isScrollEnabled: Bool = true {
+    /// default true. turn off any dragging temporarily
+    open var isDragEnabled: Bool = true {
         didSet {
-            collectionView.isScrollEnabled = isScrollEnabled
+            collectionView.isScrollEnabled = isDragEnabled
         }
     }
     open var showsPageControl: Bool = true {
@@ -98,7 +98,7 @@ open class ZKCycleScrollView: UIView {
     }
     open var autoScrollDuration: TimeInterval = 3 {
         didSet {
-            addTimer()
+            if isAutoScroll { addTimer() }
         }
     }
     open var pageControlTransform: CGAffineTransform = .identity {
@@ -120,17 +120,18 @@ open class ZKCycleScrollView: UIView {
     open var contentOffset: CGPoint {
         return collectionView.contentOffset
     }
-    // Customize pageControl
+    /// customize pageControl
     open var customPageControl: UIView?
     
     private let numberOfSections: Int = 100
     private let kCellReuseId = "ZKCycleScrollViewCell"
     private var collectionView: UICollectionView!
     private var flowLayout: UICollectionViewFlowLayout!
-    private var pageControl: UIPageControl?
+    private var pageControl: UIPageControl? // default pageControl
     private var timer: Timer?
     private var count: Int = 0
     
+    // MARK: - Open Func
     open func register(cellClass: AnyClass?) {
         collectionView.register(cellClass, forCellWithReuseIdentifier: kCellReuseId)
     }
@@ -151,7 +152,7 @@ open class ZKCycleScrollView: UIView {
     open func adjustWhenViewWillAppear() {
         if count <= 0 { return }
         let indexPath = currentIndexPath()
-        guard indexPath.section < numberOfSections || indexPath.item < count else { return }
+        guard indexPath.section < numberOfSections && indexPath.item < count else { return }
         var position: UICollectionView.ScrollPosition!
         switch scrollDirection {
         case .horizontal:
@@ -162,6 +163,7 @@ open class ZKCycleScrollView: UIView {
         collectionView.scrollToItem(at: indexPath, at: position, animated: false)
     }
     
+    // MARK: - Override Func
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -200,6 +202,7 @@ open class ZKCycleScrollView: UIView {
         collectionView.dataSource = nil
     }
     
+    // MARK: - Private Func
     private func initialization() {
         flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 0
@@ -231,7 +234,7 @@ open class ZKCycleScrollView: UIView {
         }
         let section = Int(numberOfSections / 2)
         collectionView.scrollToItem(at: IndexPath(item: 0, section: section), at: position, animated: false)
-        collectionView.isScrollEnabled = (count > 1 && isScrollEnabled)
+        collectionView.isScrollEnabled = (count > 1 && isDragEnabled)
     }
     
     private func addTimer() {
@@ -312,7 +315,7 @@ open class ZKCycleScrollView: UIView {
     }
     
     private func currentIndexPath() -> IndexPath {
-        if bounds.width == 0 || bounds.height == 0 {
+        if bounds.width <= 0 || bounds.height <= 0 {
             return IndexPath(item: 0, section: 0)
         }
         var index: Int = 0
