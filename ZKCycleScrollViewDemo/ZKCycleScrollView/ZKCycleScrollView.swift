@@ -62,8 +62,8 @@ public protocol ZKCycleScrollViewDataSource: NSObjectProtocol {
 
 open class ZKCycleScrollView: UIView {
 
-    weak open var delegate: ZKCycleScrollViewDelegate?
-    weak open var dataSource: ZKCycleScrollViewDataSource?
+    open weak var delegate: ZKCycleScrollViewDelegate?
+    open weak var dataSource: ZKCycleScrollViewDataSource?
 
     open var scrollDirection: ZKScrollDirection = .horizontal {
         didSet {
@@ -130,6 +130,37 @@ open class ZKCycleScrollView: UIView {
     private var pageControl: UIPageControl?
     private var timer: Timer?
     private var count: Int = 0
+    
+    open func register(cellClass: AnyClass?) {
+        collectionView.register(cellClass, forCellWithReuseIdentifier: kCellReuseId)
+    }
+    
+    open func register(nib: UINib?) {
+        collectionView.register(nib, forCellWithReuseIdentifier: kCellReuseId)
+    }
+    
+    open func dequeueReusableCell(for indexPath: IndexPath) -> ZKCycleScrollViewCell {
+        return collectionView.dequeueReusableCell(withReuseIdentifier: kCellReuseId, for: indexPath)
+    }
+    
+    open func reloadData() {
+        collectionView.reloadData()
+        DispatchQueue.main.async { self.configuration() }
+    }
+    
+    open func adjustWhenViewWillAppear() {
+        if count <= 0 { return }
+        let indexPath = currentIndexPath()
+        guard indexPath.section < numberOfSections || indexPath.item < count else { return }
+        var position: UICollectionView.ScrollPosition!
+        switch scrollDirection {
+        case .horizontal:
+            position = .left
+        case .vertical:
+            position = .top
+        }
+        collectionView.scrollToItem(at: indexPath, at: position, animated: false)
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -295,37 +326,6 @@ open class ZKCycleScrollView: UIView {
         let section: Int = Int(index / count)
         let item: Int = Int(index % count)
         return IndexPath(item: item, section: section)
-    }
-    
-    open func register(cellClass: AnyClass?) {
-        collectionView.register(cellClass, forCellWithReuseIdentifier: kCellReuseId)
-    }
-    
-    open func register(nib: UINib?) {
-        collectionView.register(nib, forCellWithReuseIdentifier: kCellReuseId)
-    }
-    
-    open func dequeueReusableCell(for indexPath: IndexPath) -> ZKCycleScrollViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: kCellReuseId, for: indexPath)
-    }
-    
-    open func reloadData() {
-        collectionView.reloadData()
-        DispatchQueue.main.async { self.configuration() }
-    }
-    
-    open func adjustWhenViewWillAppear() {
-        if count <= 0 { return }
-        let indexPath = currentIndexPath()
-        guard indexPath.section < numberOfSections || indexPath.item < count else { return }
-        var position: UICollectionView.ScrollPosition!
-        switch scrollDirection {
-        case .horizontal:
-            position = .left
-        case .vertical:
-            position = .top
-        }
-        collectionView.scrollToItem(at: indexPath, at: position, animated: false)
     }
 }
 
