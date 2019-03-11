@@ -30,4 +30,11 @@ class LocalImageCell: ZKCycleScrollViewCell {
         
         imageView.frame = CGRect(x: 12.0, y: 0.0, width: contentView.bounds.width - 24.0, height: contentView.bounds.height - 20.0)
     }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if imageView.frame.contains(point) {
+            return super.hitTest(point, with: event)
+        }
+        return nil
+    }
 }

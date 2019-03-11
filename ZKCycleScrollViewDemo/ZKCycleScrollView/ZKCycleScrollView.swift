@@ -380,6 +380,7 @@ extension ZKCycleScrollView: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         count = dataSource?.numberOfItems(in: self) ?? 0
+        if count < 2 { showsPageControl = false }
         return count
     }
     

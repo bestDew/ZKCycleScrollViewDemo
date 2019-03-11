@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     }()
     
     lazy var remoteBannerView: ZKCycleScrollView = {
-        let remoteBannerView = ZKCycleScrollView(frame: CGRect(x: 0, y: 350.0, width: kScreenWidth, height: kFitWidth(80)))
+        let remoteBannerView = ZKCycleScrollView(frame: CGRect(x: 0, y: 350.0, width: kScreenWidth, height: kFitWidth(65.0)))
         remoteBannerView.delegate = self
         remoteBannerView.dataSource = self
         remoteBannerView.backgroundColor = .white
@@ -67,12 +67,13 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for index in 1...6 {
-            loaclPathGroup.append("ad_\(index)")
+        for index in 1...12 {
+            loaclPathGroup.append("\(index)")
         }
         view.addSubview(localBannerView)
         
-        remotePathGroup = ["http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20171101181927887.jpg", "http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20171114171645011.jpg", "http://chatm-icon.oss-cn-beijing.aliyuncs.com/pic/pic_20171114172009707.png"]
+        remotePathGroup = ["http://static1.pezy.cn/img/2019-02-01/5932241902444072231.jpg",
+            "http://static1.pezy.cn/img/2019-03-01/1206059142424414231.jpg"]
         view.addSubview(remoteBannerView)
         
         textGroup = ["~如果有一天~", "~我回到从前~", "~我会带着笑脸~", "~和你说再见~"]
