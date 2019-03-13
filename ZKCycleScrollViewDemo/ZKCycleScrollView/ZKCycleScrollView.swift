@@ -153,13 +153,7 @@ open class ZKCycleScrollView: UIView {
         if count <= 0 { return }
         let indexPath = currentIndexPath()
         guard indexPath.section < numberOfSections && indexPath.item < count else { return }
-        var position: UICollectionView.ScrollPosition!
-        switch scrollDirection {
-        case .horizontal:
-            position = .left
-        case .vertical:
-            position = .top
-        }
+        let position = scrollPosition()
         collectionView.scrollToItem(at: indexPath, at: position, animated: false)
     }
     
@@ -225,13 +219,8 @@ open class ZKCycleScrollView: UIView {
     private func configuration() {
         addTimer()
         addPageControl()
-        var position: UICollectionView.ScrollPosition!
-        switch scrollDirection {
-        case .horizontal:
-            position = .left
-        case .vertical:
-            position = .top
-        }
+        
+        let position = scrollPosition()
         let section = Int(numberOfSections / 2)
         collectionView.scrollToItem(at: IndexPath(item: 0, section: section), at: position, animated: false)
         collectionView.isScrollEnabled = (count > 1 && isDragEnabled)
@@ -279,13 +268,7 @@ open class ZKCycleScrollView: UIView {
     @objc private func automaticScroll() {
         let section: Int = currentIndexPath().section
         let item: Int = currentIndexPath().item
-        var position: UICollectionView.ScrollPosition!
-        switch scrollDirection {
-        case .horizontal:
-            position = .left
-        case .vertical:
-            position = .top
-        }
+        let position = scrollPosition()
         var targetIndexPath: IndexPath!
         var animated: Bool!
         
@@ -312,6 +295,15 @@ open class ZKCycleScrollView: UIView {
     private func removeTimer() {
         timer?.invalidate()
         timer = nil
+    }
+    
+    private func scrollPosition() -> UICollectionView.ScrollPosition {
+        switch scrollDirection {
+        case .horizontal:
+            return .left
+        case .vertical:
+            return .top
+        }
     }
     
     private func currentIndexPath() -> IndexPath {

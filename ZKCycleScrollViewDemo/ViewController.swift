@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         remoteBannerView.delegate = self
         remoteBannerView.dataSource = self
         remoteBannerView.backgroundColor = .white
-        remoteBannerView.autoScrollDuration = 5.0
+        remoteBannerView.autoScrollDuration = 4.0
         remoteBannerView.register(cellClass: RemoteImageCell.self)
         return remoteBannerView
     }()
