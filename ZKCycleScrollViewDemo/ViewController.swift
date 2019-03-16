@@ -24,10 +24,9 @@ class ViewController: UIViewController {
         let localBannerView = ZKCycleScrollView(frame: CGRect(x: 0.0, y: 100.0, width: view.bounds.width, height: kFitWidth(188.0)))
         localBannerView.delegate = self
         localBannerView.dataSource = self
+        localBannerView.pageControl.isHidden = true
         localBannerView.backgroundColor = .white
-        localBannerView.customPageControl = pageControl
         localBannerView.register(cellClass: LocalImageCell.self)
-        localBannerView.pageControlTransform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         return localBannerView
     }()
     
@@ -46,7 +45,7 @@ class ViewController: UIViewController {
         textBannerView.delegate = self
         textBannerView.dataSource = self
         textBannerView.isDragEnabled = false
-        textBannerView.showsPageControl = false
+        textBannerView.pageControl.isHidden = true
         textBannerView.backgroundColor = .white
         textBannerView.scrollDirection = .vertical
         textBannerView.register(cellClass: TextCell.self)
@@ -54,13 +53,13 @@ class ViewController: UIViewController {
     }()
     
     lazy var pageControl: CHIPageControlJaloro = {
-        let pageControl = CHIPageControlJaloro()
+        let pageControl = CHIPageControlJaloro(frame: CGRect(x: (localBannerView.bounds.width - 180) / 2, y: localBannerView.bounds.height - 15, width: 180, height: 15))
         pageControl.radius = 3.0
         pageControl.padding = 8.0
+        pageControl.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         pageControl.tintColor = UIColor(hexString: "#E8E8EA")!
         pageControl.currentPageTintColor = UIColor(hexString: "#EF8833")!
         pageControl.numberOfPages = loaclPathGroup.count
-        pageControl.isHidden = true
         return pageControl
     }()
 
@@ -71,6 +70,7 @@ class ViewController: UIViewController {
             loaclPathGroup.append("\(index)")
         }
         view.addSubview(localBannerView)
+        localBannerView.addSubview(pageControl)
         
         remotePathGroup = ["http://static1.pezy.cn/img/2019-02-01/5932241902444072231.jpg",
             "http://static1.pezy.cn/img/2019-03-01/1206059142424414231.jpg"]

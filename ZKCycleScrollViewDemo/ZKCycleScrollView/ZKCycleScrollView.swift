@@ -90,44 +90,20 @@ open class ZKCycleScrollView: UIView {
             collectionView.isScrollEnabled = isDragEnabled
         }
     }
-    open var showsPageControl: Bool = true {
-        didSet {
-            pageControl?.isHidden = !showsPageControl
-            customPageControl?.isHidden = !showsPageControl
-        }
-    }
     open var autoScrollDuration: TimeInterval = 3 {
         didSet {
             if isAutoScroll { addTimer() }
         }
     }
-    open var pageControlTransform: CGAffineTransform = .identity {
-        didSet {
-            pageControl?.transform = pageControlTransform
-            customPageControl?.transform = pageControlTransform
-        }
-    }
-    open var pageIndicatorTintColor: UIColor = .gray {
-        didSet {
-            pageControl?.pageIndicatorTintColor = pageIndicatorTintColor
-        }
-    }
-    open var currentPageIndicatorTintColor: UIColor = .white {
-        didSet {
-            pageControl?.currentPageIndicatorTintColor = currentPageIndicatorTintColor
-        }
-    }
     open var contentOffset: CGPoint {
         return collectionView.contentOffset
     }
-    /// customize pageControl
-    open var customPageControl: UIView?
-    
+    open private(set) var pageControl = UIPageControl()
+
     private let numberOfSections: Int = 100
     private let kCellReuseId = "ZKCycleScrollViewCell"
     private var collectionView: UICollectionView!
     private var flowLayout: UICollectionViewFlowLayout!
-    private var pageControl: UIPageControl? // default pageControl
     private var timer: Timer?
     private var count: Int = 0
     
@@ -155,6 +131,23 @@ open class ZKCycleScrollView: UIView {
         guard indexPath.section < numberOfSections && indexPath.item < count else { return }
         let position = scrollPosition()
         collectionView.scrollToItem(at: indexPath, at: position, animated: false)
+    }
+    
+    open func currentIndexPath() -> IndexPath {
+        if bounds.width <= 0 || bounds.height <= 0 {
+            return IndexPath(item: 0, section: 0)
+        }
+        var index: Int = 0
+        switch scrollDirection {
+        case .horizontal:
+            index = Int((collectionView.contentOffset.x + flowLayout.itemSize.width / 2) / flowLayout.itemSize.width)
+        case .vertical:
+            index = Int((collectionView.contentOffset.y + flowLayout.itemSize.height / 2) / flowLayout.itemSize.height)
+        }
+        index = max(0, index)
+        let section: Int = Int(index / count)
+        let item: Int = Int(index % count)
+        return IndexPath(item: item, section: section)
     }
     
     // MARK: - Override Func
@@ -213,12 +206,16 @@ open class ZKCycleScrollView: UIView {
         collectionView.dataSource = self
         addSubview(collectionView)
         
+        pageControl.pageIndicatorTintColor = UIColor.gray
+        pageControl.currentPageIndicatorTintColor = UIColor.white
+        addSubview(pageControl);
+        
         DispatchQueue.main.async { self.configuration() }
     }
     
     private func configuration() {
         addTimer()
-        addPageControl()
+        updatePageControl()
         
         let position = scrollPosition()
         let section = Int(numberOfSections / 2)
@@ -233,38 +230,16 @@ open class ZKCycleScrollView: UIView {
         RunLoop.main.add(timer!, forMode: .common)
     }
     
-    private func addPageControl() {
-        pageControl?.removeFromSuperview()
-        customPageControl?.removeFromSuperview()
-        
-        if let customPageControl = customPageControl {
-            customPageControl.frame = pageControlFrame()
-            customPageControl.isHidden = !showsPageControl
-            customPageControl.transform = pageControlTransform
-            addSubview(customPageControl)
-        } else {
-            pageControl = UIPageControl()
-            guard let pageControl = pageControl else { return }
-            pageControl.frame = pageControlFrame()
-            pageControl.numberOfPages = count
-            pageControl.isHidden = !showsPageControl
-            pageControl.transform = pageControlTransform
-            pageControl.pageIndicatorTintColor = pageIndicatorTintColor
-            pageControl.currentPageIndicatorTintColor = currentPageIndicatorTintColor
-            addSubview(pageControl)
-        }
+    private func updatePageControl() {
+        let height: CGFloat = 15.0;
+        let width: CGFloat = CGFloat(count * 15)
+        let x: CGFloat = (bounds.width - width) / 2
+        let y: CGFloat = bounds.height - height
+        pageControl.frame = CGRect(x: x, y: y, width: width, height: height)
+        pageControl.currentPage = 0
+        pageControl.numberOfPages = count
     }
-    
-    private func pageControlFrame() -> CGRect {
-        let pageControlWidth = CGFloat(count * 15)
-        let pageControlX = (bounds.width - pageControlWidth) / 2
-        let pageControlY = bounds.height - 15
-        let pageControlorigin = CGPoint(x: pageControlX, y: pageControlY)
-        let pageControlSize = CGSize(width: pageControlWidth, height: 15)
-        
-        return CGRect(origin: pageControlorigin, size: pageControlSize)
-    }
-    
+
     @objc private func automaticScroll() {
         let section: Int = currentIndexPath().section
         let item: Int = currentIndexPath().item
@@ -305,23 +280,6 @@ open class ZKCycleScrollView: UIView {
             return .top
         }
     }
-    
-    private func currentIndexPath() -> IndexPath {
-        if bounds.width <= 0 || bounds.height <= 0 {
-            return IndexPath(item: 0, section: 0)
-        }
-        var index: Int = 0
-        switch scrollDirection {
-        case .horizontal:
-            index = Int((collectionView.contentOffset.x + flowLayout.itemSize.width / 2) / flowLayout.itemSize.width)
-        case .vertical:
-            index = Int((collectionView.contentOffset.y + flowLayout.itemSize.height / 2) / flowLayout.itemSize.height)
-        }
-        index = max(0, index)
-        let section: Int = Int(index / count)
-        let item: Int = Int(index % count)
-        return IndexPath(item: item, section: section)
-    }
 }
 
 extension ZKCycleScrollView: UICollectionViewDelegate {
@@ -338,9 +296,9 @@ extension ZKCycleScrollView: UICollectionViewDelegate {
         if let delegate = delegate, delegate.responds(to: #selector(ZKCycleScrollViewDelegate.cycleScrollViewDidScroll(_:))) {
             delegate.cycleScrollViewDidScroll!(self)
         }
-        if count <= 0 { return }
+        guard count > 0 else { return }
         let indexPath = currentIndexPath()
-        pageControl?.currentPage = indexPath.item
+        pageControl.currentPage = indexPath.item
     }
     
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -372,7 +330,6 @@ extension ZKCycleScrollView: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         count = dataSource?.numberOfItems(in: self) ?? 0
-        if count < 2 { showsPageControl = false }
         return count
     }
     
