@@ -16,17 +16,21 @@ let kFitWidth: (CGFloat) -> CGFloat = { width in
 
 class ViewController: UIViewController {
     
+    let localCellId = "LocalImageCell"
+    let remoteCellId = "RemoteImageCell"
+    let textCellId = "TextCell"
+    
     var loaclPathGroup = [String]()
     var remotePathGroup = [String]()
     var textGroup = [String]()
     
     lazy var localBannerView: ZKCycleScrollView = {
-        let localBannerView = ZKCycleScrollView(frame: CGRect(x: 0.0, y: 100.0, width: view.bounds.width, height: kFitWidth(188.0)))
+        let localBannerView = ZKCycleScrollView(frame: CGRect(x: 0.0, y: 100.0, width: view.bounds.width, height: kFitWidth(200.0)))
         localBannerView.delegate = self
         localBannerView.dataSource = self
         localBannerView.pageControl.isHidden = true
         localBannerView.backgroundColor = .white
-        localBannerView.register(cellClass: LocalImageCell.self)
+        localBannerView.register(LocalImageCell.self, forCellWithReuseIdentifier: localCellId)
         return localBannerView
     }()
     
@@ -35,8 +39,8 @@ class ViewController: UIViewController {
         remoteBannerView.delegate = self
         remoteBannerView.dataSource = self
         remoteBannerView.backgroundColor = .white
-        remoteBannerView.autoScrollDuration = 4.0
-        remoteBannerView.register(cellClass: RemoteImageCell.self)
+        remoteBannerView.autoScrollInterval = 4.0
+        remoteBannerView.register(RemoteImageCell.self, forCellWithReuseIdentifier: remoteCellId)
         return remoteBannerView
     }()
     
@@ -44,20 +48,20 @@ class ViewController: UIViewController {
         let textBannerView = ZKCycleScrollView(frame: CGRect(x: 0, y: 480.0, width: kScreenWidth, height: 30.0))
         textBannerView.delegate = self
         textBannerView.dataSource = self
-        textBannerView.isDragEnabled = false
+        textBannerView.isScrollEnabled = false
         textBannerView.pageControl.isHidden = true
         textBannerView.backgroundColor = .white
         textBannerView.scrollDirection = .vertical
-        textBannerView.register(cellClass: TextCell.self)
+        textBannerView.register(TextCell.self, forCellWithReuseIdentifier: textCellId)
         return textBannerView
     }()
     
     lazy var pageControl: CHIPageControlJaloro = {
-        let pageControl = CHIPageControlJaloro(frame: CGRect(x: (localBannerView.bounds.width - 180) / 2, y: localBannerView.bounds.height - 15, width: 180, height: 15))
+        let pageControl = CHIPageControlJaloro(frame: CGRect(x: 0.0, y: localBannerView.bounds.height - 15, width: localBannerView.bounds.width, height: 15))
         pageControl.radius = 3.0
         pageControl.padding = 8.0
         pageControl.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-        pageControl.tintColor = UIColor(hexString: "#E8E8EA")!
+        pageControl.tintColor = UIColor.gray
         pageControl.currentPageTintColor = UIColor(hexString: "#EF8833")!
         pageControl.numberOfPages = loaclPathGroup.count
         return pageControl
@@ -70,6 +74,7 @@ class ViewController: UIViewController {
             loaclPathGroup.append("\(index)")
         }
         view.addSubview(localBannerView)
+        localBannerView.addSubview(pageControl)
         localBannerView.addSubview(pageControl)
         
         remotePathGroup = ["http://static1.pezy.cn/img/2019-02-01/5932241902444072231.jpg",
@@ -91,19 +96,19 @@ class ViewController: UIViewController {
 
 extension ViewController: ZKCycleScrollViewDelegate {
     
-    func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, didSelectItemAt indexPath: IndexPath) {
-        print("点击了：\(indexPath.item)")
+    func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, didSelectItemAt index: Int) {
+        print("selected index: \(index)")
     }
     
-    func cycleScrollViewDidScroll(_ cycleScrollView: ZKCycleScrollView) {
-        
+    func cycleScrollViewDidScroll(_ cycleScrollView: ZKCycleScrollView, progress: Double) {
         guard cycleScrollView === localBannerView else { return }
-        
-        let total = CGFloat(loaclPathGroup.count - 1) * cycleScrollView.bounds.width
-        let offset = cycleScrollView.contentOffset.x.truncatingRemainder(dividingBy:(cycleScrollView.bounds.width * CGFloat(loaclPathGroup.count)))
-        let percent = Double(offset / total)
-        let progress = percent * Double(loaclPathGroup.count - 1)
         pageControl.progress = progress
+        print("progress: \(progress)")
+    }
+    
+    func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, didScrollFromIndex fromIndex: Int, toIndex: Int) {
+        guard cycleScrollView === localBannerView else { return }
+        print("from: \(fromIndex) to: \(toIndex)")
     }
 }
 
@@ -119,18 +124,18 @@ extension ViewController: ZKCycleScrollViewDataSource {
         }
     }
     
-    func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, cellForItemAt indexPath: IndexPath) -> ZKCycleScrollViewCell {
+    func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, cellForItemAt index: Int) -> ZKCycleScrollViewCell {
         if cycleScrollView === localBannerView {
-            let cell = cycleScrollView.dequeueReusableCell(for: indexPath) as! LocalImageCell
-            cell.imageView.image = UIImage(named: loaclPathGroup[indexPath.item])
+            let cell = cycleScrollView.dequeueReusableCell(withReuseIdentifier: localCellId, for: index) as! LocalImageCell
+            cell.imageView.image = UIImage(named: loaclPathGroup[index])
             return cell
         } else if cycleScrollView === remoteBannerView {
-            let cell = cycleScrollView.dequeueReusableCell(for: indexPath) as! RemoteImageCell
-            cell.imageUrl = remotePathGroup[indexPath.item]
+            let cell = cycleScrollView.dequeueReusableCell(withReuseIdentifier: remoteCellId, for: index) as! RemoteImageCell
+            cell.imageUrl = remotePathGroup[index]
             return cell
         } else {
-            let cell = cycleScrollView.dequeueReusableCell(for: indexPath) as! TextCell
-            cell.textLabel.text = textGroup[indexPath.item]
+            let cell = cycleScrollView.dequeueReusableCell(withReuseIdentifier: textCellId, for: index) as! TextCell
+            cell.textLabel.text = textGroup[index]
             return cell
         }
     }
