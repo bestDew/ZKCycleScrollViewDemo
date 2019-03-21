@@ -66,7 +66,7 @@ public protocol ZKCycleScrollViewDataSource: NSObjectProtocol {
 }
 
 open class ZKCycleScrollView: UIView {
-
+    
     open weak var delegate: ZKCycleScrollViewDelegate?
     open weak var dataSource: ZKCycleScrollViewDataSource?
 
@@ -81,6 +81,13 @@ open class ZKCycleScrollView: UIView {
             }
         }
     }
+    /// default 3.f. automatic scroll time interval
+    open var autoScrollInterval: TimeInterval = 3 {
+        didSet {
+            addTimer()
+        }
+    }
+    
     open var isAutoScroll: Bool = true {
         didSet {
             addTimer()
@@ -90,12 +97,6 @@ open class ZKCycleScrollView: UIView {
     open var isScrollEnabled: Bool = true {
         didSet {
             collectionView.isScrollEnabled = isScrollEnabled
-        }
-    }
-    /// default 3.f. automatic scroll time interval
-    open var autoScrollInterval: TimeInterval = 3 {
-        didSet {
-            addTimer()
         }
     }
     open var pageIndex: Int {
@@ -166,20 +167,10 @@ open class ZKCycleScrollView: UIView {
         initialization()
     }
     
-    override open func awakeFromNib() {
-        super.awakeFromNib()
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         
         initialization()
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override open var backgroundColor: UIColor? {
-        didSet {
-            collectionView.backgroundColor = backgroundColor
-        }
     }
     
     override open func layoutSubviews() {
@@ -207,6 +198,7 @@ open class ZKCycleScrollView: UIView {
         flowLayout.scrollDirection = .horizontal
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = nil
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.isPagingEnabled = true
@@ -238,7 +230,7 @@ open class ZKCycleScrollView: UIView {
         removeTimer()
         
         if numberOfItems < 2 || !isAutoScroll || autoScrollInterval <= 0.0 { return }
-        timer = Timer.scheduledTimer(timeInterval: TimeInterval(autoScrollInterval), target: self, selector: #selector(automaticScroll), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: autoScrollInterval, target: self, selector: #selector(automaticScroll), userInfo: nil, repeats: true)
         RunLoop.main.add(timer!, forMode: .common)
     }
     
@@ -272,7 +264,6 @@ open class ZKCycleScrollView: UIView {
         if numberOfItems <= 0 || bounds.width <= 0.0 || bounds.height <= 0.0 {
             return 0
         }
-        
         var index = 0
         switch scrollDirection {
         case .vertical:

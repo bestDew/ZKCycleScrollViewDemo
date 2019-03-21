@@ -23,29 +23,49 @@ class ViewController: UIViewController {
     var loaclPathGroup = [String]()
     var remotePathGroup = [String]()
     var textGroup = [String]()
-    
-    lazy var localBannerView: ZKCycleScrollView = {
-        let localBannerView = ZKCycleScrollView(frame: CGRect(x: 0.0, y: 100.0, width: view.bounds.width, height: kFitWidth(200.0)))
+
+    let pageControl = CHIPageControlJaloro()
+    let localBannerView = ZKCycleScrollView()
+    let remoteBannerView = ZKCycleScrollView()
+    let textBannerView = ZKCycleScrollView()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        /// 本地图片轮播
+        for index in 1...12 {
+            loaclPathGroup.append("\(index)")
+        }
+        
+        localBannerView.frame = CGRect(x: 0.0, y: 60.0, width: kScreenWidth, height: kFitWidth(200.0))
         localBannerView.delegate = self
-        localBannerView.dataSource = self
+        localBannerView.dataSource = self;
         localBannerView.pageControl.isHidden = true
-        localBannerView.backgroundColor = .white
-        localBannerView.register(LocalImageCell.self, forCellWithReuseIdentifier: localCellId)
-        return localBannerView
-    }()
-    
-    lazy var remoteBannerView: ZKCycleScrollView = {
-        let remoteBannerView = ZKCycleScrollView(frame: CGRect(x: 0, y: 350.0, width: kScreenWidth, height: kFitWidth(65.0)))
+        localBannerView.register(UINib(nibName: "LocalImageCell", bundle: nil), forCellWithReuseIdentifier: localCellId)
+        view.addSubview(localBannerView)
+        
+        pageControl.frame = CGRect(x: 0.0, y: localBannerView.bounds.height - 15.0, width: kScreenWidth, height: 15.0)
+        pageControl.radius = 3.0
+        pageControl.padding = 8.0
+        pageControl.tintColor = UIColor.gray
+        pageControl.currentPageTintColor = UIColor.orange
+        pageControl.numberOfPages = loaclPathGroup.count
+        pageControl.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        localBannerView.addSubview(pageControl)
+        
+        /// 网络图片图片轮播
+        remotePathGroup = ["http://static1.pezy.cn/img/2019-02-01/5932241902444072231.jpg",
+            "http://static1.pezy.cn/img/2019-03-01/1206059142424414231.jpg"]
+        remoteBannerView.frame = CGRect(x: 0.0, y: localBannerView.frame.maxY + 60.0, width: kScreenWidth, height: kFitWidth(65.0))
         remoteBannerView.delegate = self
-        remoteBannerView.dataSource = self
-        remoteBannerView.backgroundColor = .white
+        remoteBannerView.dataSource = self;
         remoteBannerView.autoScrollInterval = 4.0
         remoteBannerView.register(RemoteImageCell.self, forCellWithReuseIdentifier: remoteCellId)
-        return remoteBannerView
-    }()
-    
-    lazy var textBannerView: ZKCycleScrollView = {
-        let textBannerView = ZKCycleScrollView(frame: CGRect(x: 0, y: 480.0, width: kScreenWidth, height: 30.0))
+        view.addSubview(remoteBannerView)
+        
+        /// 文字轮播
+        textGroup = ["~如果有一天~", "~我回到从前~", "~我会带着笑脸~", "~和你说再见~"]
+        textBannerView.frame = CGRect(x: 0, y: remoteBannerView.frame.maxY + 60.0, width: kScreenWidth, height: 30.0)
         textBannerView.delegate = self
         textBannerView.dataSource = self
         textBannerView.isScrollEnabled = false
@@ -53,35 +73,6 @@ class ViewController: UIViewController {
         textBannerView.backgroundColor = .white
         textBannerView.scrollDirection = .vertical
         textBannerView.register(TextCell.self, forCellWithReuseIdentifier: textCellId)
-        return textBannerView
-    }()
-    
-    lazy var pageControl: CHIPageControlJaloro = {
-        let pageControl = CHIPageControlJaloro(frame: CGRect(x: 0.0, y: localBannerView.bounds.height - 15, width: localBannerView.bounds.width, height: 15))
-        pageControl.radius = 3.0
-        pageControl.padding = 8.0
-        pageControl.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-        pageControl.tintColor = UIColor.gray
-        pageControl.currentPageTintColor = UIColor(hexString: "#EF8833")!
-        pageControl.numberOfPages = loaclPathGroup.count
-        return pageControl
-    }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        for index in 1...12 {
-            loaclPathGroup.append("\(index)")
-        }
-        view.addSubview(localBannerView)
-        localBannerView.addSubview(pageControl)
-        localBannerView.addSubview(pageControl)
-        
-        remotePathGroup = ["http://static1.pezy.cn/img/2019-02-01/5932241902444072231.jpg",
-            "http://static1.pezy.cn/img/2019-03-01/1206059142424414231.jpg"]
-        view.addSubview(remoteBannerView)
-        
-        textGroup = ["~如果有一天~", "~我回到从前~", "~我会带着笑脸~", "~和你说再见~"]
         view.addSubview(textBannerView)
     }
 
