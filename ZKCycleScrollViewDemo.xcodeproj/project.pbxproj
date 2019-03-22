@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		97D7698A970FAE8145D5B9E4 /* Pods_ZKCycleScrollViewDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14B924C4A707B2C21B91375C /* Pods_ZKCycleScrollViewDemo.framework */; };
+		FDB2AD67224506CA00B5EF30 /* ZKCycleScrollViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB2AD66224506CA00B5EF30 /* ZKCycleScrollViewFlowLayout.swift */; };
+		FDB2AD69224518E400B5EF30 /* Untitled.gif in Resources */ = {isa = PBXBuildFile; fileRef = FDB2AD68224518E400B5EF30 /* Untitled.gif */; };
 		FDD9039822328C1000596E20 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD9039722328C1000596E20 /* AppDelegate.swift */; };
 		FDD9039A22328C1000596E20 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD9039922328C1000596E20 /* ViewController.swift */; };
 		FDD9039D22328C1000596E20 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FDD9039B22328C1000596E20 /* Main.storyboard */; };
@@ -25,6 +27,8 @@
 		14B924C4A707B2C21B91375C /* Pods_ZKCycleScrollViewDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZKCycleScrollViewDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AC77DDE37F4B07C8E652AB7 /* Pods-ZKCycleScrollViewDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZKCycleScrollViewDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ZKCycleScrollViewDemo/Pods-ZKCycleScrollViewDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		AA266AB887B40F97034B0166 /* Pods-ZKCycleScrollViewDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZKCycleScrollViewDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-ZKCycleScrollViewDemo/Pods-ZKCycleScrollViewDemo.release.xcconfig"; sourceTree = "<group>"; };
+		FDB2AD66224506CA00B5EF30 /* ZKCycleScrollViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZKCycleScrollViewFlowLayout.swift; sourceTree = "<group>"; };
+		FDB2AD68224518E400B5EF30 /* Untitled.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = Untitled.gif; sourceTree = "<group>"; };
 		FDD9039422328C1000596E20 /* ZKCycleScrollViewDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZKCycleScrollViewDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FDD9039722328C1000596E20 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FDD9039922328C1000596E20 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 				FDD9039E22328C1100596E20 /* Assets.xcassets */,
 				FDD903A022328C1100596E20 /* LaunchScreen.storyboard */,
 				FDD903A322328C1100596E20 /* Info.plist */,
+				FDB2AD68224518E400B5EF30 /* Untitled.gif */,
 			);
 			path = ZKCycleScrollViewDemo;
 			sourceTree = "<group>";
@@ -110,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				FDD903AA22328E7200596E20 /* ZKCycleScrollView.swift */,
+				FDB2AD66224506CA00B5EF30 /* ZKCycleScrollViewFlowLayout.swift */,
 			);
 			path = ZKCycleScrollView;
 			sourceTree = "<group>";
@@ -178,6 +184,7 @@
 				FDD96CA0224383AB00B313A2 /* LocalImageCell.xib in Resources */,
 				FDD9039F22328C1100596E20 /* Assets.xcassets in Resources */,
 				FDD9039D22328C1000596E20 /* Main.storyboard in Resources */,
+				FDB2AD69224518E400B5EF30 /* Untitled.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +247,7 @@
 				FDD9039A22328C1000596E20 /* ViewController.swift in Sources */,
 				FDD96C9F224383AB00B313A2 /* LocalImageCell.swift in Sources */,
 				FDD903B3223299EE00596E20 /* RemoteImageCell.swift in Sources */,
+				FDB2AD67224506CA00B5EF30 /* ZKCycleScrollViewFlowLayout.swift in Sources */,
 				FDD903B52232A0DA00596E20 /* TextCell.swift in Sources */,
 				FDD9039822328C1000596E20 /* AppDelegate.swift in Sources */,
 				FDD903AB22328E7200596E20 /* ZKCycleScrollView.swift in Sources */,

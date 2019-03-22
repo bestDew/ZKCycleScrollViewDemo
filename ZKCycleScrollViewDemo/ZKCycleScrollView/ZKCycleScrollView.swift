@@ -94,29 +94,68 @@ open class ZKCycleScrollView: UIView {
         }
     }
     /// default true. turn off any dragging temporarily
-    open var isScrollEnabled: Bool = true {
+    open var allowsDragging: Bool = true {
         didSet {
-            collectionView.isScrollEnabled = isScrollEnabled
+            collectionView.isScrollEnabled = allowsDragging
         }
     }
+     /// default view size
+    open var itemSize: CGSize = CGSize.zero {
+        didSet {
+            itemSizeFlag = true
+            flowLayout.itemSize = itemSize
+            flowLayout.headerReferenceSize = CGSize(width: (bounds.width - itemSize.width) / 2, height: (bounds.height - itemSize.height) / 2)
+            flowLayout.footerReferenceSize = CGSize(width: (bounds.width - itemSize.width) / 2, height: (bounds.height - itemSize.height) / 2)
+        }
+    }
+    /// default 0.0
+    open var itemSpacing: CGFloat = 0.0 {
+        didSet {
+            flowLayout.minimumLineSpacing = itemSpacing
+        }
+    }
+    /// default 0.0
+    open var itemZoomFactor: CGFloat = 0.0 {
+        didSet {
+            flowLayout.zoomFactor = itemZoomFactor
+        }
+    }
+    
+    open var hidesPageControl: Bool = false {
+        didSet {
+            pageControl?.isHidden = hidesPageControl
+        }
+    }
+    open var pageIndicatorTintColor: UIColor = UIColor.gray {
+        didSet {
+            pageControl?.pageIndicatorTintColor = pageIndicatorTintColor
+        }
+    }
+    open var currentPageIndicatorTintColor: UIColor = UIColor.white {
+        didSet {
+            pageControl?.currentPageIndicatorTintColor = currentPageIndicatorTintColor
+        }
+    }
+    
     open var pageIndex: Int {
         return changeIndex(currentIndex())
     }
     open var contentOffset: CGPoint {
         switch scrollDirection {
         case .vertical:
-            return CGPoint(x: 0.0, y: max(0.0, collectionView.contentOffset.y - bounds.height))
+            return CGPoint(x: 0.0, y: max(0.0, collectionView.contentOffset.y - (flowLayout.itemSize.height + flowLayout.minimumLineSpacing) * 2))
         default:
-            return CGPoint(x: max(0.0, collectionView.contentOffset.x - bounds.width), y: 0.0)
+            return CGPoint(x: max(0.0, collectionView.contentOffset.x - (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) * 2), y: 0.0)
         }
     }
-    open private(set) var pageControl: UIPageControl!
-
+    
+    private var pageControl: UIPageControl!
     private var collectionView: UICollectionView!
-    private var flowLayout: UICollectionViewFlowLayout!
+    private var flowLayout: ZKCycleScrollViewFlowLayout!
     private var timer: Timer?
     private var numberOfItems: Int = 0
     private var fromIndex: Int = 0
+    private var itemSizeFlag: Bool = false
     
     // MARK: - Open Func
     open func register(_ cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String) {
@@ -151,11 +190,11 @@ open class ZKCycleScrollView: UIView {
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: position, animated: false)
         
-        if index == 0 {
-            let indexPath = IndexPath(item: numberOfItems - 2, section: 0)
+        if index == 1 {
+            let indexPath = IndexPath(item: numberOfItems - 3, section: 0)
             collectionView.scrollToItem(at: indexPath, at: position, animated: false)
-        } else if index == numberOfItems - 1 {
-            let indexPath = IndexPath(item: 1, section: 0)
+        } else if index == numberOfItems - 2 {
+            let indexPath = IndexPath(item: 2, section: 0)
             collectionView.scrollToItem(at: indexPath, at: position, animated: false)
         }
     }
@@ -176,7 +215,7 @@ open class ZKCycleScrollView: UIView {
     override open func layoutSubviews() {
         super.layoutSubviews()
         
-        flowLayout.itemSize = bounds.size
+        flowLayout.itemSize = itemSizeFlag ? itemSize : bounds.size
         collectionView.frame = bounds
         pageControl.frame = CGRect(x: 0.0, y: bounds.height - 15.0, width: bounds.width, height: 15.0)
     }
@@ -192,9 +231,11 @@ open class ZKCycleScrollView: UIView {
     
     // MARK: - Private Func
     private func initialization() {
-        flowLayout = UICollectionViewFlowLayout()
+        flowLayout = ZKCycleScrollViewFlowLayout()
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
+        flowLayout.headerReferenceSize = CGSize.zero
+        flowLayout.footerReferenceSize = CGSize.zero
         flowLayout.scrollDirection = .horizontal
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
@@ -209,6 +250,7 @@ open class ZKCycleScrollView: UIView {
         addSubview(collectionView)
         
         pageControl = UIPageControl()
+        pageControl.hidesForSinglePage = true
         pageControl.pageIndicatorTintColor = UIColor.gray
         pageControl.currentPageIndicatorTintColor = UIColor.white
         addSubview(pageControl);
@@ -222,7 +264,7 @@ open class ZKCycleScrollView: UIView {
         guard numberOfItems > 1 else { return }
         
         let position = scrollPosition()
-        let indexPath = IndexPath(item: 1, section: 0)
+        let indexPath = IndexPath(item: 2, section: 0)
         collectionView.scrollToItem(at: indexPath, at: position, animated: false)
     }
     
@@ -236,7 +278,8 @@ open class ZKCycleScrollView: UIView {
     
     private func updatePageControl() {
         pageControl.currentPage = 0
-        pageControl.numberOfPages = max(0, numberOfItems - 2);
+        pageControl.numberOfPages = max(0, numberOfItems - 4)
+        pageControl.isHidden = (hidesPageControl || pageControl.numberOfPages < 2)
     }
 
     @objc private func automaticScroll() {
@@ -267,9 +310,9 @@ open class ZKCycleScrollView: UIView {
         var index = 0
         switch scrollDirection {
         case .vertical:
-            index = Int((collectionView.contentOffset.y + flowLayout.itemSize.height / 2) / flowLayout.itemSize.height)
+            index = Int((collectionView.contentOffset.y + (flowLayout.itemSize.height + flowLayout.minimumLineSpacing) / 2) / (flowLayout.itemSize.height + flowLayout.minimumLineSpacing))
         default:
-            index = Int((collectionView.contentOffset.x + flowLayout.itemSize.width / 2) / flowLayout.itemSize.width)
+            index = Int((collectionView.contentOffset.x + (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) / 2) / (flowLayout.itemSize.width + flowLayout.minimumLineSpacing))
         }
         return max(0, index)
     }
@@ -280,11 +323,15 @@ open class ZKCycleScrollView: UIView {
         var idx = index
         
         if index == 0 {
-            idx = numberOfItems - 3
-        } else if index == numberOfItems - 1 {
+            idx = numberOfItems - 6
+        } else if index == 1 {
+            idx = numberOfItems - 5
+        } else if index == numberOfItems - 2 {
             idx = 0
+        } else if index == numberOfItems - 1 {
+            idx = 1
         } else {
-            idx = index - 1
+            idx = index - 2
         }
         return idx
     }
@@ -305,14 +352,14 @@ extension ZKCycleScrollView: UICollectionViewDelegate {
         var offset: CGFloat = 0.0
         switch scrollDirection {
         case .vertical:
-            total = CGFloat(numberOfItems - 3) * bounds.height
-            offset = contentOffset.y.truncatingRemainder(dividingBy:(bounds.height * CGFloat(numberOfItems - 2)))
+            total = CGFloat(numberOfItems - 5) * (flowLayout.itemSize.height + flowLayout.minimumLineSpacing)
+            offset = contentOffset.y.truncatingRemainder(dividingBy:((flowLayout.itemSize.height + flowLayout.minimumLineSpacing) * CGFloat(numberOfItems - 4)))
         default:
-            total = CGFloat(numberOfItems - 3) * bounds.width
-            offset = contentOffset.x.truncatingRemainder(dividingBy:(bounds.width * CGFloat(numberOfItems - 2)))
+            total = CGFloat(numberOfItems - 5) * (flowLayout.itemSize.width + flowLayout.minimumLineSpacing)
+            offset = contentOffset.x.truncatingRemainder(dividingBy:((flowLayout.itemSize.width + flowLayout.minimumLineSpacing) * CGFloat(numberOfItems - 4)))
         }
         let percent = Double(offset / total)
-        let progress = percent * Double(numberOfItems - 3)
+        let progress = percent * Double(numberOfItems - 5)
         if let delegate = delegate, delegate.responds(to: #selector(ZKCycleScrollViewDelegate.cycleScrollViewDidScroll(_:progress:))) {
             delegate.cycleScrollViewDidScroll!(self, progress: progress)
         }
@@ -326,19 +373,15 @@ extension ZKCycleScrollView: UICollectionViewDelegate {
         addTimer()
     }
     
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        scrollViewDidEndScrollingAnimation(scrollView)
-    }
-    
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         let index = currentIndex()
-        if index == 0 {
+        if index == 1 {
             let position = scrollPosition()
-            let indexPath = IndexPath(item: numberOfItems - 2, section: 0)
+            let indexPath = IndexPath(item: numberOfItems - 3, section: 0)
             collectionView.scrollToItem(at: indexPath, at: position, animated: false)
-        } else if index == numberOfItems - 1 {
+        } else if index == numberOfItems - 2 {
             let position = scrollPosition()
-            let indexPath = IndexPath(item: 1, section: 0)
+            let indexPath = IndexPath(item: 2, section: 0)
             collectionView.scrollToItem(at: indexPath, at: position, animated: false)
         }
         let toIndex = changeIndex(index)
@@ -347,13 +390,20 @@ extension ZKCycleScrollView: UICollectionViewDelegate {
         }
         fromIndex = toIndex
     }
+    
+    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        let index = currentIndex()
+        let position = scrollPosition()
+        let indexPath = IndexPath(item: index, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: position, animated: true)
+    }
 }
 
 extension ZKCycleScrollView: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         numberOfItems = dataSource?.numberOfItems(in: self) ?? 0
-        if numberOfItems > 1 { numberOfItems += 2 }
+        if numberOfItems > 1 { numberOfItems += 4 }
         return numberOfItems
     }
     
