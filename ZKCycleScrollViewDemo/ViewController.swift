@@ -102,7 +102,7 @@ class ViewController: UIViewController {
         cycleScrollView3.dataSource = self
         cycleScrollView3.hidesPageControl = true
         cycleScrollView3.itemSpacing = 12.0
-        cycleScrollView3.itemSize = CGSize(width: view.bounds.width - 80.0, height: cycleScrollView3.bounds.height)
+        cycleScrollView3.itemSize = CGSize(width: view.bounds.width - 50.0, height: cycleScrollView3.bounds.height)
         cycleScrollView3.register(UINib(nibName: "LocalImageCell", bundle: nil), forCellWithReuseIdentifier: localCellId)
         scrollView.addSubview(cycleScrollView3)
         
