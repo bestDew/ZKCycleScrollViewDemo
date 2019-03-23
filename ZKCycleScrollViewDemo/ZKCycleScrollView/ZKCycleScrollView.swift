@@ -147,6 +147,8 @@ open class ZKCycleScrollView: UIView {
             return CGPoint(x: max(0.0, collectionView.contentOffset.x - (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) * 2), y: 0.0)
         }
     }
+    /// a callback to the completion of data loading
+    open var loadCompletion: (() -> Void)? = nil
     
     private var pageControl: UIPageControl!
     private var collectionView: UICollectionView!
@@ -177,6 +179,7 @@ open class ZKCycleScrollView: UIView {
                 self.collectionView.reloadSections(IndexSet(integer: 0))
             }, completion: { _ in
                 self.configuration()
+                self.loadCompletion?()
             })
         }
     }
@@ -254,7 +257,10 @@ open class ZKCycleScrollView: UIView {
         pageControl.currentPageIndicatorTintColor = UIColor.white
         addSubview(pageControl);
         
-        DispatchQueue.main.async { self.configuration() }
+        DispatchQueue.main.async {
+            self.configuration()
+            self.loadCompletion?()
+        }
     }
     
     private func configuration() {
