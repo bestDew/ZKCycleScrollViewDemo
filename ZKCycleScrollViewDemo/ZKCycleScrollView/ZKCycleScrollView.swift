@@ -147,7 +147,7 @@ open class ZKCycleScrollView: UIView {
             return CGPoint(x: max(0.0, collectionView.contentOffset.x - (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) * 2), y: 0.0)
         }
     }
-    /// a callback to the completion of data loading
+    /// // load completed callback
     open var loadCompletion: (() -> Void)? = nil
     
     private var pageControl: UIPageControl!
