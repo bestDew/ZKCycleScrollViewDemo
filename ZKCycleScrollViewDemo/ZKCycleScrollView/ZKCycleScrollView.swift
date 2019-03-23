@@ -87,7 +87,6 @@ open class ZKCycleScrollView: UIView {
             addTimer()
         }
     }
-    
     open var isAutoScroll: Bool = true {
         didSet {
             addTimer()

@@ -165,7 +165,9 @@ extension ViewController: ZKCycleScrollViewDelegate {
     }
     
     func cycleScrollViewDidScroll(_ cycleScrollView: ZKCycleScrollView, progress: Double) {
-        if cycleScrollView === cycleScrollView2 {
+        if cycleScrollView === cycleScrollView1 {
+            print("content offset-x: \(cycleScrollView.contentOffset.x)")
+        } else if cycleScrollView === cycleScrollView2 {
             pageControlJaloro.progress = progress
         } else if cycleScrollView === cycleScrollView3 {
             pageControlPuya.progress = progress
