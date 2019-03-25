@@ -415,6 +415,7 @@ extension ZKCycleScrollView: UICollectionViewDelegate {
         let index = currentIndex() + indexOffset
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: position, animated: true)
+        indexOffset = 0
     }
 }
 
