@@ -157,6 +157,7 @@ open class ZKCycleScrollView: UIView {
     private var numberOfItems: Int = 0
     private var fromIndex: Int = 0
     private var itemSizeFlag: Bool = false
+    private var indexOffset: Int = 0
     
     // MARK: - Open Func
     open func register(_ cellClass: AnyClass?, forCellWithReuseIdentifier identifier: String) {
@@ -319,7 +320,7 @@ open class ZKCycleScrollView: UIView {
         default:
             index = Int((collectionView.contentOffset.x + (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) / 2) / (flowLayout.itemSize.width + flowLayout.minimumLineSpacing))
         }
-        return max(0, index)
+        return min(numberOfItems - 1, max(0, index))
     }
     
     private func changeIndex(_ index: Int) -> Int {
@@ -396,9 +397,22 @@ extension ZKCycleScrollView: UICollectionViewDelegate {
         fromIndex = toIndex
     }
     
+    public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard changeIndex(currentIndex()) == fromIndex else { return }
+        
+        let sum = velocity.x + velocity.y
+        if sum > 0 {
+            indexOffset = 1
+        } else if sum < 0 {
+            indexOffset = -1
+        } else {
+            indexOffset = 0
+        }
+    }
+    
     public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        let index = currentIndex()
         let position = scrollPosition()
+        let index = currentIndex() + indexOffset
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: position, animated: true)
     }
