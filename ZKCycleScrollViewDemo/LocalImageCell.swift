@@ -11,11 +11,4 @@ import UIKit
 class LocalImageCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if imageView.frame.contains(point) {
-            return super.hitTest(point, with: event)
-        }
-        return nil
-    }
 }
