@@ -98,7 +98,7 @@ open class ZKCycleScrollView: UIView {
             collectionView.isScrollEnabled = allowsDragging
         }
     }
-     /// default view size
+     /// default the view size
     open var itemSize: CGSize = CGSize.zero {
         didSet {
             itemSizeFlag = true
@@ -113,7 +113,7 @@ open class ZKCycleScrollView: UIView {
             flowLayout.minimumLineSpacing = itemSpacing
         }
     }
-    /// default 0.0
+    /// default 0.0. the larger the value, the greater the zoom
     open var itemZoomFactor: CGFloat = 0.0 {
         didSet {
             flowLayout.zoomFactor = itemZoomFactor
@@ -135,10 +135,11 @@ open class ZKCycleScrollView: UIView {
             pageControl?.currentPageIndicatorTintColor = currentPageIndicatorTintColor
         }
     }
-    
+    /// current page index
     open var pageIndex: Int {
         return changeIndex(currentIndex())
     }
+    /// current content offset
     open var contentOffset: CGPoint {
         switch scrollDirection {
         case .vertical:
