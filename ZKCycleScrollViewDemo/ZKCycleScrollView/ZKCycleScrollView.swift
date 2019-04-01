@@ -398,7 +398,7 @@ extension ZKCycleScrollView: UICollectionViewDelegate {
     }
     
     public func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        guard changeIndex(currentIndex()) == fromIndex else { return }
+        guard pageIndex == fromIndex else { return }
         
         let sum = velocity.x + velocity.y
         if sum > 0 {
