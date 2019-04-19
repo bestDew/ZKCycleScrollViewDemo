@@ -49,7 +49,7 @@ extension ViewController: ZKCycleScrollViewDelegate {
 
 ```
 
-## Link
+## Links
 
 -   [中文文档](./README_CN.md)
 -   [Objective-C version](https://github.com/bestDew/ZKCycleScrollViewDemo-OC)
