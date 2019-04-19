@@ -52,7 +52,7 @@ extension ViewController: ZKCycleScrollViewDelegate {
 ## 链接
 
 -   [English document](./README.md)
--   [Objective-C version](https://github.com/bestDew/ZKCycleScrollViewDemo-OC)
+-   [Objective-C 版本](https://github.com/bestDew/ZKCycleScrollViewDemo-OC)
 
 ## 感谢
 
