@@ -52,7 +52,6 @@ class ViewController: UIViewController {
         scrollView.contentSize = CGSize(width: view.bounds.width, height: 750.0)
         view.addSubview(scrollView)
         
-        
         addCycleScrollView1()
         addCycleScrollView2()
         addCycleScrollView3()
