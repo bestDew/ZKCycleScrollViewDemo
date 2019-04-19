@@ -1,18 +1,18 @@
-# ZKCycleScrollViewDemo
+# ZKCycleScrollView
 
-A simple and useful automatic infinite scroll view, support for Objective-C and Swift.
+一款简单实用的轮播图控件，支持 Objective-C 和 Swift。
 
-## ScreenShot
+## 效果图
 
 ![image](https://github.com/bestDew/ZKCycleScrollViewDemo/blob/master/ZKCycleScrollViewDemo/Untitled.gif)
 
-## Features
+## 特性
 
--   Horizontal and vertical scrolling
--   Cell and pageControl customization
--   Interface Builder
+-   支持横向和竖向滚动
+-   支持 cell 和 pageControl 自定制
+-   支持 xib 和 storyBoard
 
-## Usage
+## 使用
 
 ```swift
 
@@ -49,11 +49,11 @@ extension ViewController: ZKCycleScrollViewDelegate {
 
 ```
 
-## Links
+## 链接
 
--   [中文文档](./README_CN.md)
--   [Objective-C version](https://github.com/bestDew/ZKCycleScrollViewDemo-OC)
+-   [English document](./README.md)
+-   [Objective-C 版本](https://github.com/bestDew/ZKCycleScrollViewDemo-OC)
 
-## Thanks
+## 感谢
 
-If possible, please give me a star😘.
+如果对你有帮助, 赏颗星吧😘。
