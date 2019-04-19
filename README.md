@@ -1,4 +1,59 @@
 # ZKCycleScrollViewDemo
-炒鸡灵活的轮播图，Swift版本<br/>相对于市面上的其他轮播图，实现更优雅，API更友好<br/>支持cell和pageControl自定义，支持横向和竖向轮播，支持xib、storyboard<br/>OC版本传送门：https://github.com/bestDew/ZKCycleScrollViewDemo-OC
 
-![效果图](https://github.com/bestDew/ZKCycleScrollViewDemo/blob/master/ZKCycleScrollViewDemo/Untitled.gif)
+A simple and useful automatic infinite scroll view, support for Objective-C and Swift.
+
+## ScreenShot
+
+![image](https://github.com/bestDew/ZKCycleScrollViewDemo/blob/master/ZKCycleScrollViewDemo/Untitled.gif)
+
+## Features
+
+-   Horizontal and vertical scrolling
+-   Cell and pageControl customization
+-   Interface Builder
+
+## Usage
+
+```swift
+
+class ViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let cycleScrollView = ZKCycleScrollView(frame: CGRect(x: 0.0, y: 0.0, width: 375.0, height: 65.0))
+        cycleScrollView.delegate = self
+        cycleScrollView.dataSource = self
+        cycleScrollView.register(CustomCell.self, forCellWithReuseIdentifier: "cellReuseId")
+        view.addSubview(cycleScrollView)
+    }
+}
+
+extension ViewController: ZKCycleScrollViewDataSource {
+    
+    func numberOfItems(in cycleScrollView: ZKCycleScrollView) -> Int {
+        return 5
+    }
+    
+    func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, cellForItemAt index: Int) -> ZKCycleScrollViewCell {
+        let cell = cycleScrollView.dequeueReusableCell(withReuseIdentifier: "cellReuseId", for: index) as! CustomCell
+        // TODO...
+        return cell
+    }
+}
+
+extension ViewController: ZKCycleScrollViewDelegate {
+    func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, didSelectItemAt index: Int) {
+        // TODO...
+    }
+}
+
+```
+
+## Link
+
+-   [中文文档](./README_CN.md)
+-   [Objective-C version](https://github.com/bestDew/ZKCycleScrollViewDemo-OC)
+
+## Thanks
+
+If possible, please give me a star😘.
