@@ -1,6 +1,6 @@
 # ZKCycleScrollViewDemo
 
-A simple and useful automatic infinite scroll view, support for Objective-C and Swift. More elegant implementation and more friendly API.
+A simple and useful automatic infinite scroll view, more elegant implementation and more friendly API. Support for Objective-C and Swift.
 
 ## ScreenShot
 
