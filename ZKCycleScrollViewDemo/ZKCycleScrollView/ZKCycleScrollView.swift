@@ -254,6 +254,7 @@ open class ZKCycleScrollView: UIView {
         addSubview(collectionView)
         
         pageControl = UIPageControl()
+        pageControl.isEnabled = false
         pageControl.hidesForSinglePage = true
         pageControl.pageIndicatorTintColor = UIColor.gray
         pageControl.currentPageIndicatorTintColor = UIColor.white
