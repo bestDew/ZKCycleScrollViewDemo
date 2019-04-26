@@ -115,7 +115,7 @@ class ViewController: UIViewController {
         cycleScrollView3.addSubview(pageControlPuya)
     }
     
-    /// 实现这种效果的关键是：itemZoomFactor，默认是 0.f，没有缩放效果，这个值越大缩放效果越明显，0.001已经很大了。。。
+    /// 实现这种效果的关键是：itemZoomScale，范围是：0.f ~ 1.f，默认是 1.f，没有缩放效果
     func addCycleScrollView4() {
         cycleScrollView4.frame = CGRect(x: 0.0, y: cycleScrollView3.frame.maxY + 20.0, width: view.bounds.width, height: kFitWidth(150.0))
         cycleScrollView4.delegate = self
