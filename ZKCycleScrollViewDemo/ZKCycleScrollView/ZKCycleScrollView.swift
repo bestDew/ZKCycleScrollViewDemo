@@ -113,10 +113,10 @@ open class ZKCycleScrollView: UIView {
             flowLayout.minimumLineSpacing = itemSpacing
         }
     }
-    /// default 0.0. the larger the value, the greater the zoom
-    open var itemZoomFactor: CGFloat = 0.0 {
+    /// default 1.f(no scaling), it ranges from 0.f to 1.f
+    open var itemZoomScale: CGFloat = 1.0 {
         didSet {
-            flowLayout.zoomFactor = itemZoomFactor
+            flowLayout.zoomScale = itemZoomScale
         }
     }
     

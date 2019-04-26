@@ -44,24 +44,44 @@ import UIKit
 
 open class ZKCycleScrollViewFlowLayout: UICollectionViewFlowLayout {
 
-    open var zoomFactor: CGFloat = 0.0
+    open var zoomScale: CGFloat = 1.0
     
     override open func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         let attributes: [UICollectionViewLayoutAttributes] = NSArray(array: super.layoutAttributesForElements(in: rect) ?? [], copyItems: true) as! [UICollectionViewLayoutAttributes]
         if let collectionView = collectionView {
             switch scrollDirection {
             case .vertical:
-                let centerY = collectionView.contentOffset.y + collectionView.bounds.height / 2
+                let offset = collectionView.bounds.midY;
+                let distanceForScale = itemSize.height + minimumLineSpacing;
+                
                 for attr in attributes {
-                    let distance = abs(attr.center.y - centerY)
-                    let scale = 1 / (1 + distance * zoomFactor)
+                    var scale: CGFloat = 0.0;
+                    let distance = abs(offset - attr.center.y)
+                    if distance >= distanceForScale {
+                        scale = zoomScale;
+                    } else if distance == 0.0 {
+                        scale = 1.0
+                        attr.zIndex = 1
+                    } else {
+                        scale = zoomScale + (distanceForScale - distance) * (1.0 - zoomScale) / distanceForScale
+                    }
                     attr.transform = CGAffineTransform(scaleX: scale, y: scale)
                 }
             default:
-                let centerX = collectionView.contentOffset.x + collectionView.bounds.width / 2
+                let offset = collectionView.bounds.midX;
+                let distanceForScale = itemSize.width + minimumLineSpacing;
+
                 for attr in attributes {
-                    let distance = abs(attr.center.x - centerX)
-                    let scale = 1 / (1 + distance * zoomFactor)
+                    var scale: CGFloat = 0.0;
+                    let distance = abs(offset - attr.center.x)
+                    if distance >= distanceForScale {
+                        scale = zoomScale;
+                    } else if distance == 0.0 {
+                        scale = 1.0
+                        attr.zIndex = 1
+                    } else {
+                        scale = zoomScale + (distanceForScale - distance) * (1.0 - zoomScale) / distanceForScale
+                    }
                     attr.transform = CGAffineTransform(scaleX: scale, y: scale)
                 }
             }

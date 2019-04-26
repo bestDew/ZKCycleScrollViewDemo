@@ -121,8 +121,8 @@ class ViewController: UIViewController {
         cycleScrollView4.delegate = self
         cycleScrollView4.dataSource = self
         cycleScrollView4.hidesPageControl = true
-        cycleScrollView4.itemSpacing = -18.0
-        cycleScrollView4.itemZoomFactor = 0.001
+        cycleScrollView4.itemSpacing = -10.0
+        cycleScrollView4.itemZoomScale = 0.85
         cycleScrollView4.itemSize = CGSize(width: view.bounds.width - 80.0, height: cycleScrollView4.bounds.height)
         cycleScrollView4.register(UINib(nibName: "LocalImageCell", bundle: nil), forCellWithReuseIdentifier: localCellId)
         scrollView.addSubview(cycleScrollView4)
