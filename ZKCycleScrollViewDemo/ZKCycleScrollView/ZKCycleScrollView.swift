@@ -177,30 +177,27 @@ open class ZKCycleScrollView: UIView {
     open func reloadData() {
         removeTimer()
         UIView.performWithoutAnimation {
-            self.collectionView.performBatchUpdates({
-                self.collectionView.reloadSections(IndexSet(integer: 0))
-            }, completion: { _ in
-                self.configuration()
-                self.loadCompletion?()
-            })
+            self.collectionView.reloadData()
+        }
+        collectionView.performBatchUpdates(nil) { _ in
+            self.configuration()
+            self.loadCompletion?()
         }
     }
     
     open func adjustWhenViewWillAppear() {
         guard numberOfItems > 1 else { return }
         
-        let index = currentIndex()
+        var index = currentIndex()
         let position = scrollPosition()
+        if index == 1 {
+            index = numberOfItems - 3
+            
+        } else if index == numberOfItems - 2 {
+            index = 2
+        }
         let indexPath = IndexPath(item: index, section: 0)
         collectionView.scrollToItem(at: indexPath, at: position, animated: false)
-        
-        if index == 1 {
-            let indexPath = IndexPath(item: numberOfItems - 3, section: 0)
-            collectionView.scrollToItem(at: indexPath, at: position, animated: false)
-        } else if index == numberOfItems - 2 {
-            let indexPath = IndexPath(item: 2, section: 0)
-            collectionView.scrollToItem(at: indexPath, at: position, animated: false)
-        }
     }
     
     // MARK: - Override Func
