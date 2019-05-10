@@ -192,7 +192,6 @@ open class ZKCycleScrollView: UIView {
         let position = scrollPosition()
         if index == 1 {
             index = numberOfItems - 3
-            
         } else if index == numberOfItems - 2 {
             index = 2
         }
