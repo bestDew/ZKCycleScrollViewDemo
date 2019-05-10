@@ -263,6 +263,9 @@ open class ZKCycleScrollView: UIView {
     }
     
     private func configuration() {
+        fromIndex = 0
+        indexOffset = 0
+        
         guard numberOfItems > 1 else { return }
         
         let position = scrollPosition()
