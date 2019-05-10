@@ -264,13 +264,14 @@ open class ZKCycleScrollView: UIView {
     }
     
     private func configuration() {
-        addTimer()
-        updatePageControl()
         guard numberOfItems > 1 else { return }
         
         let position = scrollPosition()
         let indexPath = IndexPath(item: 2, section: 0)
         collectionView.scrollToItem(at: indexPath, at: position, animated: false)
+        
+        addTimer()
+        updatePageControl()
     }
     
     private func addTimer() {
