@@ -215,7 +215,15 @@ open class ZKCycleScrollView: UIView {
     override open func layoutSubviews() {
         super.layoutSubviews()
         
-        flowLayout.itemSize = itemSizeFlag ? itemSize : bounds.size
+        if itemSizeFlag {
+            flowLayout.itemSize = itemSize
+            flowLayout.headerReferenceSize = CGSize(width: (bounds.width - itemSize.width) / 2, height: (bounds.height - itemSize.height) / 2)
+            flowLayout.footerReferenceSize = CGSize(width: (bounds.width - itemSize.width) / 2, height: (bounds.height - itemSize.height) / 2)
+        } else {
+            flowLayout.itemSize = bounds.size
+            flowLayout.headerReferenceSize = CGSize.zero
+            flowLayout.footerReferenceSize = CGSize.zero
+        }
         collectionView.frame = bounds
         pageControl.frame = CGRect(x: 0.0, y: bounds.height - 15.0, width: bounds.width, height: 15.0)
     }
@@ -234,8 +242,6 @@ open class ZKCycleScrollView: UIView {
         flowLayout = ZKCycleScrollViewFlowLayout()
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
-        flowLayout.headerReferenceSize = CGSize.zero
-        flowLayout.footerReferenceSize = CGSize.zero
         flowLayout.scrollDirection = .horizontal
         
         collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: flowLayout)
@@ -312,17 +318,19 @@ open class ZKCycleScrollView: UIView {
     }
     
     private func currentIndex() -> Int {
-        if numberOfItems <= 0 || bounds.width <= 0.0 || bounds.height <= 0.0 {
-            return 0
-        }
         var index = 0
+        
+        if numberOfItems < 2 || bounds.width <= 0.0 || bounds.height <= 0.0 {
+            return index
+        }
+        
         switch scrollDirection {
         case .vertical:
             index = Int((collectionView.contentOffset.y + (flowLayout.itemSize.height + flowLayout.minimumLineSpacing) / 2) / (flowLayout.itemSize.height + flowLayout.minimumLineSpacing))
         default:
             index = Int((collectionView.contentOffset.x + (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) / 2) / (flowLayout.itemSize.width + flowLayout.minimumLineSpacing))
         }
-        return min(numberOfItems - 1, max(0, index))
+        return min(numberOfItems - 2, max(1, index))
     }
     
     private func changeIndex(_ index: Int) -> Int {
