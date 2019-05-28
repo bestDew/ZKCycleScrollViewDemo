@@ -36,14 +36,14 @@ extension ViewController: ZKCycleScrollViewDataSource {
     
     func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, cellForItemAt index: Int) -> ZKCycleScrollViewCell {
         let cell = cycleScrollView.dequeueReusableCell(withReuseIdentifier: "cellReuseId", for: index) as! CustomCell
-        // TODO...
+        // TODO:
         return cell
     }
 }
 
 extension ViewController: ZKCycleScrollViewDelegate {
     func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, didSelectItemAt index: Int) {
-        // TODO...
+        // TODO:
     }
 }
 
