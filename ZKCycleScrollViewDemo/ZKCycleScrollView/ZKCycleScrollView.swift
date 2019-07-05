@@ -326,9 +326,11 @@ open class ZKCycleScrollView: UIView {
         
         switch scrollDirection {
         case .vertical:
-            index = Int((collectionView.contentOffset.y + (flowLayout.itemSize.height + flowLayout.minimumLineSpacing) / 2) / (flowLayout.itemSize.height + flowLayout.minimumLineSpacing))
+            let height = flowLayout.itemSize.height + flowLayout.minimumLineSpacing
+            index = Int((collectionView.contentOffset.y + height / 2) / height)
         default:
-            index = Int((collectionView.contentOffset.x + (flowLayout.itemSize.width + flowLayout.minimumLineSpacing) / 2) / (flowLayout.itemSize.width + flowLayout.minimumLineSpacing))
+            let width = flowLayout.itemSize.width + flowLayout.minimumLineSpacing
+            index = Int((collectionView.contentOffset.x + width / 2) / width)
         }
         return min(numberOfItems - 2, max(1, index))
     }

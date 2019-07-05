@@ -10,11 +10,11 @@ import UIKit
 
 public extension UIColor {
     
-    convenience public init?(hexString: String) {
+    convenience init?(hexString: String) {
         self.init(hexString: hexString, alpha: 1)
     }
     
-    convenience public init?(hexString: String, alpha: CGFloat) {
+    convenience init?(hexString: String, alpha: CGFloat) {
         // 删除字符串中的空格
         var cString = hexString.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines).uppercased();
         // 如果是 0x 或 0X 开头的，则截取字符串，从索引为 2 的位置开始，直到末尾
