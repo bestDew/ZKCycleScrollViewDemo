@@ -56,7 +56,7 @@ extension ViewController: ZKCycleScrollViewDelegate {
 ### V2.0.1（2019/11/11）：
 
 1.支持 CocoaPods 导入：
-  ```swift
+  ```
   pod 'ZKCycleScrollView-Swift'
   ```
 2.支持取消无限轮播：
