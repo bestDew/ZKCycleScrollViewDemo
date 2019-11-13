@@ -53,7 +53,7 @@ extension ViewController: ZKCycleScrollViewDelegate {
 
 ## 更新记录
 
-### Version 2.0.1（2019/11/11）：
+### V2.0.1（2019/11/11）：
 
 1.支持 CococaPods 导入：
   ```swift
