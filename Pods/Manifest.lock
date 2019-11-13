@@ -16,21 +16,22 @@ PODS:
   - CHIPageControl/Jaloro (0.1.7)
   - CHIPageControl/Paprika (0.1.7)
   - CHIPageControl/Puya (0.1.7)
-  - Kingfisher (4.10.1)
+  - ZKCycleScrollView-Swift (2.0.1)
 
 DEPENDENCIES:
   - CHIPageControl
-  - Kingfisher
+  - ZKCycleScrollView-Swift
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - CHIPageControl
-    - Kingfisher
+  trunk:
+    - ZKCycleScrollView-Swift
 
 SPEC CHECKSUMS:
   CHIPageControl: bbe1ddd0c688c02ec65b7f7e7d34551a3d16f37c
-  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  ZKCycleScrollView-Swift: 742efcf0743bc530691a2c31f9bd162dbf863d1c
 
-PODFILE CHECKSUM: fe8ce8234548e38f7bee50bc830fb176db4a0e93
+PODFILE CHECKSUM: af1e1c9086b41be4689dec5324ed98cc89d28726
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

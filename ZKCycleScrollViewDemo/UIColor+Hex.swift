@@ -44,4 +44,11 @@ public extension UIColor {
         
         self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: alpha)
     }
+    
+    class func random() -> UIColor {
+        let r = CGFloat(arc4random() % 256) / 255.0
+        let g = CGFloat(arc4random() % 256) / 255.0
+        let b = CGFloat(arc4random() % 256) / 255.0
+        return UIColor(red: r, green: g, blue: b, alpha: 1)
+    }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextCell: ZKCycleScrollViewCell {
+class TextCell: UICollectionViewCell {
 
     private(set) var textLabel = UILabel()
     

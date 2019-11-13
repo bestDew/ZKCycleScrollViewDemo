@@ -1,5 +1,5 @@
 //
-//  LocalImageCell.swift
+//  ImageCell.swift
 //  ZKCycleScrollViewDemo
 //
 //  Created by bestdew on 2019/3/21.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LocalImageCell: UICollectionViewCell {
+class ImageCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
 }
