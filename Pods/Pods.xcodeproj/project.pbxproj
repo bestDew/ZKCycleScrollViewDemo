@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -408,7 +408,7 @@
 				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -604,41 +604,6 @@
 			};
 			name = Release;
 		};
-		751CFA846B41780A6A067232BED98529 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E15E7C4F4877974A41E4F2191415707 /* ZKCycleScrollView-Swift.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/ZKCycleScrollView-Swift/ZKCycleScrollView-Swift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/ZKCycleScrollView-Swift/ZKCycleScrollView-Swift-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				MODULEMAP_FILE = "Target Support Files/ZKCycleScrollView-Swift/ZKCycleScrollView-Swift.modulemap";
-				PRODUCT_MODULE_NAME = ZKCycleScrollView_Swift;
-				PRODUCT_NAME = ZKCycleScrollView_Swift;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 		7EF7227D9B20A1D549000096ACCB23D7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -703,7 +668,7 @@
 			};
 			name = Debug;
 		};
-		A03D21E6951212267D8FE06E86209EF3 /* Release */ = {
+		9AE3612F6A523202D154CA1C69FCB255 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2E15E7C4F4877974A41E4F2191415707 /* ZKCycleScrollView-Swift.xcconfig */;
 			buildSettings = {
@@ -731,7 +696,42 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		9B19CA4B6E3884E5C1B49333B915A9DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2E15E7C4F4877974A41E4F2191415707 /* ZKCycleScrollView-Swift.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/ZKCycleScrollView-Swift/ZKCycleScrollView-Swift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/ZKCycleScrollView-Swift/ZKCycleScrollView-Swift-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULEMAP_FILE = "Target Support Files/ZKCycleScrollView-Swift/ZKCycleScrollView-Swift.modulemap";
+				PRODUCT_MODULE_NAME = ZKCycleScrollView_Swift;
+				PRODUCT_NAME = ZKCycleScrollView_Swift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -872,8 +872,8 @@
 		9E2281C7E0EF1C0DAF713AF911E2FE55 /* Build configuration list for PBXNativeTarget "ZKCycleScrollView-Swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				751CFA846B41780A6A067232BED98529 /* Debug */,
-				A03D21E6951212267D8FE06E86209EF3 /* Release */,
+				9AE3612F6A523202D154CA1C69FCB255 /* Debug */,
+				9B19CA4B6E3884E5C1B49333B915A9DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -104,8 +104,12 @@ extension ViewController: ZKCycleScrollViewDelegate {
     
     func cycleScrollView(_ cycleScrollView: ZKCycleScrollView, didSelectItemAt index: Int) {
         print("selected index: \(index)")
-        let vc = SubViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        if cycleScrollView === colorCycleScrollView {
+            cycleScrollView.scrollToItem(at: cycleScrollView.pageIndex + 1, animated: true)
+        } else {
+            let vc = SubViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func cycleScrollViewDidScroll(_ cycleScrollView: ZKCycleScrollView, progress: Double) {

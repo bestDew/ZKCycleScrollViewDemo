@@ -16,7 +16,7 @@ PODS:
   - CHIPageControl/Jaloro (0.1.7)
   - CHIPageControl/Paprika (0.1.7)
   - CHIPageControl/Puya (0.1.7)
-  - ZKCycleScrollView-Swift (2.0.1)
+  - ZKCycleScrollView-Swift (2.0.2)
 
 DEPENDENCIES:
   - CHIPageControl
@@ -30,7 +30,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   CHIPageControl: bbe1ddd0c688c02ec65b7f7e7d34551a3d16f37c
-  ZKCycleScrollView-Swift: 742efcf0743bc530691a2c31f9bd162dbf863d1c
+  ZKCycleScrollView-Swift: c5d6c4aa5576a9bee2361ecd6c6e89996d9fd5d8
 
 PODFILE CHECKSUM: af1e1c9086b41be4689dec5324ed98cc89d28726
 
