@@ -8,7 +8,7 @@ ZKCycleScrollView是的一个功能强大的轮播视图。支持 [Objective-C](
 
 -   高度可定制化
 -   支持 Xib 方式创建
--   支持 CocoaPods 方式导入
+-   支持 CocoaPods 方式导入：```pod 'ZKCycleScrollView-Swift'```
 
 ## 演示效果图
 
@@ -55,8 +55,8 @@ extension ViewController: ZKCycleScrollViewDelegate {
 
 ### V2.0.1（2019/11/11）：
 
-1.支持 CococaPods 导入：
-  ```swift
+1.支持 CocoaPods 导入：
+  ```
   pod 'ZKCycleScrollView-Swift'
   ```
 2.支持取消无限轮播：
